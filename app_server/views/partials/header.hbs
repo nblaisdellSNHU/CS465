@@ -1,35 +1,88 @@
 <div id="header">
   <div id="logo">
-    <a href="index.html"><img
+    <a href="/index"><img
         src="images/logo.png"
         alt="LOGO"
         height="100"
         width="200"
       /></a>
   </div>
+  {{! Not the most elegant solution, but at least now I'm able to show
+        the selected page withouth having to adjust the HTML with each
+        additional page, now I can just include the name of the page
+        in the controller, and add a new branch in the template/partial }}
   <div id="navigation">
     <ul>
-      <li>
-        <a href="index.html">Home</a>
-      </li>
-      <li class="selected">
-        <a href="/travel">Travel</a>
-      </li>
-      <li>
-        <a href="rooms.html">Rooms</a>
-      </li>
-      <li>
-        <a href="meals.html">Meals</a>
-      </li>
-      <li>
-        <a href="news.html">News</a>
-      </li>
-      <li>
-        <a href="about.html">About</a>
-      </li>
-      <li>
-        <a href="contact.html">Contact</a>
-      </li>
+      {{#ifEquals title "index"}}
+        <li class="selected">
+          <a href="/index">index</a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/index">index</a>
+        </li>
+      {{/ifEquals}}
+
+      {{#ifEquals title "travel"}}
+        <li class="selected">
+          <a href="/travel">Travel</a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/travel">Travel</a>
+        </li>
+      {{/ifEquals}}
+
+      {{#ifEquals title "rooms"}}
+        <li class="selected">
+          <a href="/rooms">Rooms</a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/rooms">Rooms</a>
+        </li>
+      {{/ifEquals}}
+
+      {{#ifEquals title "meals"}}
+        <li class="selected">
+          <a href="/meals">Meals</a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/meals">Meals</a>
+        </li>
+      {{/ifEquals}}
+
+      {{#ifEquals title "news"}}
+        <li class="selected">
+          <a href="/news">News</a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/news">News</a>
+        </li>
+      {{/ifEquals}}
+
+      {{#ifEquals title "about"}}
+        <li class="selected">
+          <a href="/about">About</a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/about">About</a>
+        </li>
+      {{/ifEquals}}
+
+      {{#ifEquals title "contact"}}
+        <li class="selected">
+          <a href="/contact">Contact</a>
+        </li>
+      {{else}}
+        <li>
+          <a href="/contact">Contact</a>
+        </li>
+      {{/ifEquals}}
+
     </ul>
   </div>
 </div>
