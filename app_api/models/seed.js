@@ -12,7 +12,6 @@ const seed = async function () {
   const trips = JSON.parse(
     fs.readFileSync(path.join(__dirname, "../../data/trips.json"), "utf-8")
   );
-  console.log("trips from JSON", trips);
   const colTrip = mongoose.model("trips");
   await colTrip.deleteMany();
   await colTrip.insertMany(trips);
