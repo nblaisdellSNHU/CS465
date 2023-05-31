@@ -40,6 +40,17 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+// Allow CORS, specifically so that the Angular app can access the backend API
+app.use("/api", (req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "http://localhost:4200");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+  next();
+});
+
 // Add the rest of the pages, and point to their respective
 // routers for displaying the appropriate view/html
 app.use("/", indexRouter);
