@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from "@angular/core";
 import { Router } from "@angular/router";
 import { Trip } from "models/trip";
+import { AuthenticationService } from "services/authentication.service";
 import { TripDataService } from "services/trip-data.service";
 
 @Component({
@@ -11,7 +12,11 @@ import { TripDataService } from "services/trip-data.service";
 export class TripCardComponent implements OnInit {
   @Input("trip") trip: any;
 
-  constructor(private router: Router, private tripService: TripDataService) {}
+  constructor(
+    private router: Router,
+    private tripService: TripDataService,
+    private authService: AuthenticationService
+  ) {}
 
   ngOnInit() {}
 
@@ -24,5 +29,9 @@ export class TripCardComponent implements OnInit {
   private deleteTrip(trip: Trip): void {
     this.tripService.deleteTrip(trip);
     window.location.reload();
+  }
+
+  public isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
   }
 }

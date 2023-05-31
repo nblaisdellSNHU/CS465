@@ -8,6 +8,7 @@ const { seed } = require("./seed");
 
 // Bring in our Trips schema
 require("./travlr");
+require("./user");
 
 mongoose.connection.on("connected", () => {
   console.log(`Mongoose connected to ${dbURI}`);

@@ -53,7 +53,7 @@ export class EditTripComponent implements OnInit {
     if (this.editForm.valid) {
       this.tripService.updateTrip(this.editForm.value).then((data) => {
         console.log(data);
-        this.router.navigate([""]);
+        this.router.navigate(["list-trips"]);
       });
     }
   }

@@ -1,11 +1,17 @@
-import { Injectable } from "@angular/core";
-import { Http } from "@angular/http";
+import { Inject, Injectable } from "@angular/core";
+import { Headers, Http } from "@angular/http";
 
 import { Trip } from "../models/trip";
+import { User } from "src/app/models/user";
+import { AuthResponse } from "src/app/models/authresponse";
+import { BROWSER_STORAGE } from "src/app/storage";
 
 @Injectable()
 export class TripDataService {
-  constructor(private http: Http) {}
+  constructor(
+    private http: Http,
+    @Inject(BROWSER_STORAGE) private storage: Storage
+  ) {}
 
   private apiBaseUrl = "http://localhost:3000/api/";
   private tripUrl = `${this.apiBaseUrl}trips/`;
@@ -28,10 +34,17 @@ export class TripDataService {
       .catch(this.handleError);
   }
 
+  public getHeaders(): Headers {
+    return new Headers({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("travlr-token")}`,
+    });
+  }
+
   public addTrip(formData: Trip): Promise<Trip> {
     console.log("Inside TripDataService#addTrip");
     return this.http
-      .post(this.tripUrl, formData)
+      .post(this.tripUrl, formData, { headers: this.getHeaders() })
       .toPromise()
       .then((res) => res.json() as Trip[])
       .catch(this.handleError);
@@ -41,7 +54,9 @@ export class TripDataService {
     console.log("Inside TripDataService#updateTrip");
     console.log(formData);
     return this.http
-      .put(this.tripUrl + formData.code, formData)
+      .put(this.tripUrl + formData.code, formData, {
+        headers: this.getHeaders(),
+      })
       .toPromise()
       .then((res) => res.json() as Trip[])
       .catch(this.handleError);
@@ -51,8 +66,25 @@ export class TripDataService {
     console.log("Inside TripDataService#deleteTrip");
     console.log(trip);
     this.http
-      .delete(this.tripUrl + trip.code, trip.code)
+      .delete(this.tripUrl + trip.code, { headers: this.getHeaders() })
       .toPromise()
+      .catch(this.handleError);
+  }
+
+  public login(user: User): Promise<AuthResponse> {
+    return this.makeAuthApiCall("login", user);
+  }
+
+  public register(user: User): Promise<AuthResponse> {
+    return this.makeAuthApiCall("register", user);
+  }
+
+  public makeAuthApiCall(urlPath: string, user: User): Promise<AuthResponse> {
+    const url: string = `${this.apiBaseUrl}${urlPath}`;
+    return this.http
+      .post(url, user)
+      .toPromise()
+      .then((res) => res.json() as AuthResponse)
       .catch(this.handleError);
   }
 
